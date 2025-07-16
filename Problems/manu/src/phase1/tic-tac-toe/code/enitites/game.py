@@ -4,15 +4,18 @@ from enitites.player import Player
 from enums.symbol import Symbol
 from enums.game_status import GameStatus
 
+from strategies.winning_strategy import WinningStrategy
+
 from typing import List, Optional
 
 class Game:
-    def __init__(self, board_size: int, player1: Player, player2: Player):
+    def __init__(self, board_size: int, player1: Player, player2: Player, winning_strategy: WinningStrategy):
         self.board = Board(board_size)
         self.players: List[Player] = [player1, player2]
         self.current_player_index = 0
         self.status = GameStatus.IN_PROGRESS
         self.winner: Optional[Player] = None
+        self.winning_strategy = winning_strategy
 
     
     def get_current_player(self) -> Player:
@@ -39,29 +42,8 @@ class Game:
     
     def check_winner(self) -> bool:
         symbol = self.get_current_player().symbol
-        size = self.board.size
-        grid = self.board.grid
-
-        for row in grid:
-
-            # Check rows
-            if all(cell.symbol == symbol for cell in row):
-                return True
-
-            # check columns
-            for col in range(size):
-                if all(grid[row][col].symbol == symbol for row in range(size)):
-                    return True
-
-            # Check diagonal    
-            if all(grid[i][i].symbol == symbol for i in range(size)):
-                return True
-            
-            # Check anti-diagonal
-            if all(grid[i][size - 1 - i].symbol == symbol for i in range(size)):
-                return True
-            
-            return False
+        
+        return self.winning_strategy.check_winner(self.board, symbol)
             
 
 

@@ -56,3 +56,5 @@ class GameController:
             print(f" {self.game.winner.name } wins!")
         elif self.game.status == GameStatus.DRAW:
             print("It is a draw! ")
+
+        self.print_board()

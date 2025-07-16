@@ -3,14 +3,17 @@ from enitites.player import Player
 
 from enums.symbol import Symbol
 
+from strategies.default_winning_strategy import DefaultWinningStrategy
+
 from controllers.game_controller import GameController
 
 
 def main():
     p1 = Player("Alice", Symbol.X)
     p2 = Player("Bob", Symbol.O)
+    strategy = DefaultWinningStrategy()
 
-    game = Game(board_size=3, player1=p1, player2=p2)
+    game = Game(board_size=3, player1=p1, player2=p2, winning_strategy=strategy)
     controller = GameController(game)
     controller.start()
 

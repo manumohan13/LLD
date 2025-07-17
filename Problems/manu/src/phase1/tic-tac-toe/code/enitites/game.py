@@ -32,6 +32,9 @@ class Game:
         current_symbol = self.get_current_player().symbol
         cell.mark(current_symbol)
 
+        self.winning_strategy.record_move(row, col, current_symbol)
+
+
     def check_draw(self) -> bool:
         for row in self.board.grid:
             for cell in row:
